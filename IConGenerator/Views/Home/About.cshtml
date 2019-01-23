@@ -5,7 +5,9 @@
 }
 
 <h2>About</h2>
-
+<div>
+    @Html.ActionLink("Download All file ", "GetAllZip" , new { fileName = Request.QueryString["fileName"] })
+</div>
 <table class="table">
     <tr>
         <th>

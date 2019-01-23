@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IConGenerator.Models;
 using IConGenerator.Utils;
+using Ionic.Zip;
+using Microsoft.Ajax.Utilities;
+
 
 namespace IConGenerator.Controllers
 {
@@ -15,7 +19,7 @@ namespace IConGenerator.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(FormCollection formCollection)
+        public ActionResult Index(FormCollection formCollection, string Option)
         {
             foreach (string item in Request.Files)
             {
@@ -31,9 +35,29 @@ namespace IConGenerator.Controllers
                     var imageResult = upload.UploadFile(rename.File, rename.FileName);
                     if (imageResult.Success)
                     {
-                        var icon = new IconGenerator();
-                        icon.CreateIcon( imageResult.FullPath, 128, 128,".png");
-                        icon.CreateIcon( imageResult.FullPath, 16, 16,".ico");
+                        var iconGenerator = new IconGenerator();
+                        if (!Option.IsNullOrWhiteSpace() && Option == "multiple")
+                        {
+                            iconGenerator.CreateIcon(imageResult.FullPath, 57, 57, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 60, 60, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 72, 72, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 76, 76, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 114, 114, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 120, 120, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 144, 144, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 152, 152, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 180, 180, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 192, 192, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 32, 32, ".png");
+                            iconGenerator.CreateIcon(imageResult.FullPath, 96, 96, ".png");
+                        }
+                        else
+                        {
+                        iconGenerator.CreateIcon( imageResult.FullPath, 16, 16,".ico");
+
+                        }
+
+
 
                     }
                     
@@ -86,7 +110,35 @@ namespace IConGenerator.Controllers
             {
                 contentType = "image/png";
             }
+            else
+            {
+                contentType = "image/*";
+            }
             return File(CurrentFileName, contentType, CurrentFileName);
+        }
+
+        public FileResult GetAllZip(string fileName)
+        {
+            var obj = new DownloadFiles();
+            var filesCollection = obj.GetFiles().Where(f => f.FileName.Contains(fileName));
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AlternateEncodingUsage = ZipOption.AsNecessary;
+                zip.AddDirectoryByName("Files");
+                foreach (DownLoadFileInformation file in filesCollection)
+                {
+
+                        zip.AddFile(file.FilePath, "Files");
+
+                }
+
+                string zipName = String.Format("Zip_{0}.zip", DateTime.Now.ToString("yyyy-MMM-dd-HHmmss"));
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    zip.Save(memoryStream);
+                    return File(memoryStream.ToArray(), "application/zip", zipName);
+                }
+            }
         }
 
         public ActionResult Contact()

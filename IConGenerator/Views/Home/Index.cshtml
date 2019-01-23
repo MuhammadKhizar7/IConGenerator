@@ -25,13 +25,24 @@
         @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div>Upload Image</div>
-            @*             <input type="file" name="avatar" /> *@
             <div class="input-group col-md-6">
                 <span class="input-group-btn">
                     <span class="btn btn-primary" onclick="$(this).parent().find('input[type=file]').click();">Browse</span>
                     <input name="avatar" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
                 </span>
                 <span class="form-control"></span>
+            </div>
+
+              
+            <div class="form-group">
+                <div>
+                    @Html.RadioButton("Option", "multiple", new { @checked = true }) Generate icons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+
+                </div>
+                <div>
+                    @Html.RadioButton("Option", "single") Generate only 16x16 favicon.ico
+
+                </div>
             </div>
             <div class="input-group col-md-6 " style="margin-top: 10px;">
                 <input type="submit" class="btn btn-primary" value="upload" />

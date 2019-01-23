@@ -45,7 +45,7 @@ namespace IConGenerator.Utils
             try
             {
                 file.SaveAs(path);
-                imageResult.ImageName = Path.ChangeExtension(file.FileName, "");
+                imageResult.ImageName = Path.ChangeExtension(fileName, "");
                 imageResult.FullPath = path;
                 return imageResult;
             }
