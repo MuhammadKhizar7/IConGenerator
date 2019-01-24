@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Web;
-using IConGenerator.Models;
 
 namespace IConGenerator.Utils
 {
@@ -45,9 +39,9 @@ namespace IConGenerator.Utils
             var fileName = Path.GetFileName(path);
             var filename = Path.ChangeExtension(fileName, extenstion);
             var dir = Path.GetDirectoryName(path);
-            var newpath = dir +"\\"+ width.ToString()+"_" + filename;
+            var newPath = dir +"\\"+ width.ToString()+"_" + filename;
 
-            newImage.Save(newpath, imageCodecInfo, encoderParameters);
+            newImage.Save(newPath, imageCodecInfo, encoderParameters);
             newImage.Dispose();
          
         }
@@ -87,6 +81,7 @@ namespace IConGenerator.Utils
 
             return destImage;
         }
+
 
     }
 }

@@ -38,18 +38,15 @@ namespace IConGenerator.Controllers
                         var iconGenerator = new IconGenerator();
                         if (!Option.IsNullOrWhiteSpace() && Option == "multiple")
                         {
-                            iconGenerator.CreateIcon(imageResult.FullPath, 57, 57, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 60, 60, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 72, 72, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 76, 76, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 114, 114, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 120, 120, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 144, 144, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 152, 152, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 180, 180, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 192, 192, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 32, 32, ".png");
-                            iconGenerator.CreateIcon(imageResult.FullPath, 96, 96, ".png");
+                            var sizes = new List<int>{57,60,72,76,114,120,114,150,152,180,192,32,96,115};
+                            foreach (var size in sizes)
+                            {
+                                iconGenerator.CreateIcon(imageResult.FullPath, size, size, "_android.png");
+                            }
+                            foreach (var size in sizes)
+                            {
+                                iconGenerator.CreateIcon(imageResult.FullPath, size, size, "_apple.png");
+                            }
                         }
                         else
                         {
@@ -147,5 +144,6 @@ namespace IConGenerator.Controllers
 
             return View();
         }
+
     }
 }
